@@ -1,3 +1,4 @@
+require('dotenv').config();
 const {App, Logger} = require('jj.js');
 const PushMe = require('./pushme.js');
 const fs = require('fs');
@@ -27,7 +28,7 @@ const setting = (() => {
 })();
 
 // PushMe server
-const server_port = 3100;
+const server_port = process.env.SERVER_PORT ? parseInt(process.env.SERVER_PORT, 10) : 3100;
 const pushme = new PushMe(server_port);
 const PushmeStatus = {
     _messageCount: getMessageCount(),
@@ -77,7 +78,7 @@ const PushmeStatus = {
 }
 
 // PushMe panel
-const panel_port = 3010;
+const panel_port = process.env.PANEL_PORT ? parseInt(process.env.PANEL_PORT, 10) : 3010;
 const app = new App(async(ctx, next) => {
     ctx.pushme = PushmeStatus;
     await next();
